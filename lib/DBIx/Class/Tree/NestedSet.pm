@@ -557,7 +557,7 @@ sub take_cutting {
         my $root_id = $self->$root;
 
         my $p_diff = $p_rgt - $p_lft;
-        my $l_diff = $self->$level - 1;
+        my $l_diff = $self->$level;
         my $new_id = $self->$pk;
         # I'd love to use $self->descendants->update(...),
         # but it dies with "_strip_cond_qualifiers() is unable to
@@ -591,10 +591,10 @@ sub dissolve {
     my ($root, $left, $right, $level) = $self->_get_columns;
     my $pk = ($self->result_source->primary_columns)[0];
     $self->nodes_rs->search({$root => $self->$root})->update({
-        $level  => 1,
-        $left   => 1,
-        $right  => 2,
-        $root   => \"$pk",                                  #"
+            $level  => 0,
+            $left   => 1,
+            $right  => 2,
+            $root   => \"$pk",
     });
     return $self;
 }

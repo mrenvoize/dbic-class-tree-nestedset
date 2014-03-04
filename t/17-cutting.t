@@ -64,10 +64,14 @@ is_deeply(
     [map { $_->id } $child1_2, $gchild1_1, $gchild1_2, $ggchild1],
     'cut out tree is organised correctly.');
 
+is($subtree->level,0,"cut out root level is 0");
+
 is_deeply(
     [map { $_->id } $tree1->nodes],
     [map { $_->id } $tree1, $child1_1, $child1_3, $child1_4, $gchild1_3, $gchild1_4],
     'remainder of tree intact.');
+
+
 
 $subtree->dissolve;
 refresh();

@@ -1,5 +1,9 @@
 Revision history for Perl extension DBIx::Class::Tree::NestedSet.
 
+xxxx
+    
+    - fix wrong level after take_cutting and dissolve
+
 0.10  Thu Sep 22 15:50:00 2011
     - got rid of namespace::autoclean and Moose dependencies
       (both were only used for testing)
