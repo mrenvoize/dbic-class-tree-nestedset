@@ -147,10 +147,16 @@ sub delete {
             $del_row->($descendant);
         }
 
-        $self->nodes_rs->update({
-            $left  => \"CASE WHEN $left  > $p_rgt THEN $left  - 2 ELSE $left  END",     #"
-            $right => \"CASE WHEN $right > $p_rgt THEN $right - 2 ELSE $right END",     #"
-        });
+        my $diff = $p_rgt - $p_lft + 1;
+
+        $self->nodes_rs->update(
+            {
+                $left  => \"CASE WHEN $left  > $p_rgt THEN $left  - $diff ELSE $left  END",    #"
+                $right => \"CASE WHEN $right > $p_rgt THEN $right - $diff ELSE $right END",    #"
+            }
+        );
+
+
         $del_row->($self);
     });
 }

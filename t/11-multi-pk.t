@@ -27,11 +27,11 @@ my $trees = $schema->resultset('MultiPK');
 isa_ok($trees, 'DBIx::Class::ResultSet');
 my $index = 1;
 
-my $tree1 = $trees->create({ id => $index++, id2 => 'one', content => 'tree1 root', root_id => 10});
-my $tree2 = $trees->create({ id => $index++, id2 => 'two', content => 'tree2 root', root_id => 20});
+my $tree1 = $trees->create({ id => $index++, id2 => '1', content => 'tree1 root', root_id => 10});
+my $tree2 = $trees->create({ id => $index++, id2 => '2', content => 'tree2 root', root_id => 20});
 
 throws_ok(sub {
-    my $tree3 = $trees->create({ id => $index++, id2 => 'three', content => 'tree3 root'});
+    my $tree3 = $trees->create({ id => $index++, id2 => '3', content => 'tree3 root'});
 }, qr/Only single column primary keys are supported/, 'Cannot create a tree in a multi-pk schema');
 
 
