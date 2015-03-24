@@ -554,7 +554,7 @@ sub take_cutting {
         my $pk = ($self->result_source->primary_columns)[0];
 
         $self->discard_changes;
-        my $root_id = $self->$root;
+        my $root_id = $self->get_column($root);
 
         my $p_diff = $p_rgt - $p_lft;
         my $l_diff = $self->$level - 1;
