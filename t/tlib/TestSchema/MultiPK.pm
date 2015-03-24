@@ -3,7 +3,7 @@ use warnings;
 
 package TestSchema::MultiPK;
 
-use parent 'DBIx::Class';
+use base 'DBIx::Class';
 
 __PACKAGE__->load_components(qw/Tree::NestedSet Core/);
 __PACKAGE__->table('multi_tree');
@@ -13,7 +13,7 @@ __PACKAGE__->add_columns(
         data_type         => 'integer',
     },
     id2 => {
-        data_type         => 'integer',
+        data_type         => 'text',
     },
     root_id => {
         data_type   => 'integer',

@@ -1,4 +1,4 @@
-DBIx::Class::NestedSet::ResultSet version 0.01
+DBIx::Class::NestedSet::ResultSet version 0.10
 ==============================================
 
 INSTALLATION
@@ -31,9 +31,8 @@ There are some issues about the current implementation that need consideration
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2010 by Ian Docherty
+Copyright (C) 2010-2011 by Ian Docherty
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.0 or,
 at your option, any later version of Perl 5 you may have available.
- 

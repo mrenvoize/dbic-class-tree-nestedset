@@ -3,6 +3,6 @@ use warnings;
 
 package FailSchema;
 
-use parent 'DBIx::Class::Schema';
+use base 'DBIx::Class::Schema';
 
 1;

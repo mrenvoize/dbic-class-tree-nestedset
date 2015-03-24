@@ -3,7 +3,7 @@ use warnings;
 
 package FailSchema::MissingCols;
 
-use parent 'DBIx::Class';
+use base 'DBIx::Class';
 
 __PACKAGE__->load_components(qw/Tree::NestedSet Core/);
 __PACKAGE__->table('zomtec');
