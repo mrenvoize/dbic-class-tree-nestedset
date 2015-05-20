@@ -71,13 +71,19 @@ is_deeply(
     [map { $_->id } $tree1, $child1_1, $child1_3, $child1_4, $gchild1_3, $gchild1_4],
     'remainder of tree intact.');
 
+# take_cutting should also function on a leaf node
+$ggchild1->discard_changes;
+my $subtree2 = $ggchild1->take_cutting;
 
+is($subtree2->level,0,"cut out root level is 0");
 
+# Check dissolve
 $subtree->dissolve;
 refresh();
 for ($subtree, $child1_2, $gchild1_1, $gchild1_2, $ggchild1) {
     ok $_->id == $_->root_id, 'dissolved node stands alone'
 
 }
+
 
 done_testing;
