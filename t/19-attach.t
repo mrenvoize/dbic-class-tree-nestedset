@@ -37,8 +37,6 @@ my $gchild2_1 = $child1_2->add_to_children({ content => '2 g-child 1' });
 
 # Check that the test tree is constructed correctly
 $tree1->discard_changes;
-my $organised = [ map { { lft => $_->lft, rgt => $_->rgt, content => $_->content } } $tree1->nodes ];
-print "Tree: " . p($organised) . "\n";
 
 is_deeply(
     [map { $_->id} $tree1->nodes],
@@ -46,24 +44,22 @@ is_deeply(
     'Test Tree is organised correctly.',
 );
 
+# take cutting
 $tree1->discard_changes;
 $gchild1_1->discard_changes;
 $gchild1_1->take_cutting;
 $gchild1_1->discard_changes;
 $tree1->discard_changes;
 
-my $organised3 = [ map { { lft => $_->lft, rgt => $_->rgt, content => $_->content } } $tree1->nodes ];
-print "Tree before attach: " . p($organised3) . "\n";
-
+# attach cutting
 $tree1->attach_rightmost_child($gchild1_1);
 $tree1->discard_changes;
 
-# 1 child 1, having had it's child remove, should now be a leaf.
+# child1_1 should now be a leaf
+$child1_1->discard_changes;
 ok( $child1_1->is_leaf, 'Child 1_1 is now leaf' );
 
-my $organised2 = [ map { { lft => $_->lft, rgt => $_->rgt, content => $_->content } } $tree1->nodes ];
-print "Tree: " . p($organised2) . "\n";
-
+# Check the test tree now looks as it should
 is_deeply(
     [map { $_->id} $tree1->nodes],
     [map { $_->id} $tree1, $child1_1, $child1_2, $gchild2_1, $gchild1_1],

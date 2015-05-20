@@ -557,23 +557,22 @@ sub take_cutting {
     $self->result_source->schema->txn_do(sub {
         my $p_lft = $self->$left;
         my $p_rgt = $self->$right;
-        # FIXME: p_lft == p_rgt only means we have a leaf node,
-        # it does not mean we are at the root and thus the return
-        # here is incorrect.
-        return $self if $p_lft == $p_rgt + 1; 
 
         my $pk = ($self->result_source->primary_columns)[0];
 
         $self->discard_changes;
         my $root_id = $self->$root;
 
-        my $p_diff = $p_rgt - $p_lft;
+        my $p_diff = $p_rgt - $p_lft + 1;
         my $l_diff = $self->$level;
         my $new_id = $self->$pk;
+
         # I'd love to use $self->descendants->update(...),
         # but it dies with "_strip_cond_qualifiers() is unable to
         # handle a condition reftype SCALAR".
         # tough beans.
+        #
+        # Slice out the branch
         $self->nodes_rs->search({
             $root   => $root_id,
             $left   => {'>=' => $p_lft },
@@ -585,8 +584,17 @@ sub take_cutting {
             $level  => \"$level - $l_diff",                 #"
         });
 
+        # Clean up the rest of the tree
+        # fix up parents
+        $self->nodes_rs->search({
+            $root  => $root_id,
+            $left  => { '<' => $p_lft },
+            $right => { '>' => $p_rgt },   
+        })->update({
+            $right => \"$right - $p_diff",              #"
+        });
+
         # fix up the rest of the tree
-        $self->discard_changes;
         $self->nodes_rs->search({
             $root   => $root_id,
             $left   => { '>=' => $p_rgt},
