@@ -55,6 +55,9 @@ $tree1->discard_changes;
 $tree1->attach_rightmost_child($gchild1_1);
 $tree1->discard_changes;
 
+# 1 child 1, having had it's child remove, should now be a leaf.
+ok( $child1_1->is_leaf, 'Child 1_1 is now leaf' );
+
 my $organised2 = [ map { { lft => $_->lft, rgt => $_->rgt, content => $_->content } } $tree1->nodes ];
 print "Tree: " . p($organised2) . "\n";
 
