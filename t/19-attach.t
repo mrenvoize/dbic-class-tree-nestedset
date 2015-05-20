@@ -52,6 +52,9 @@ $gchild1_1->take_cutting;
 $gchild1_1->discard_changes;
 $tree1->discard_changes;
 
+my $organised3 = [ map { { lft => $_->lft, rgt => $_->rgt, content => $_->content } } $tree1->nodes ];
+print "Tree before attach: " . p($organised3) . "\n";
+
 $tree1->attach_rightmost_child($gchild1_1);
 $tree1->discard_changes;
 

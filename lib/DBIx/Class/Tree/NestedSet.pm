@@ -557,7 +557,10 @@ sub take_cutting {
     $self->result_source->schema->txn_do(sub {
         my $p_lft = $self->$left;
         my $p_rgt = $self->$right;
-        return $self if $p_lft == $p_rgt + 1;
+        # FIXME: p_lft == p_rgt only means we have a leaf node,
+        # it does not mean we are at the root and thus the return
+        # here is incorrect.
+        return $self if $p_lft == $p_rgt + 1; 
 
         my $pk = ($self->result_source->primary_columns)[0];
 
@@ -583,6 +586,7 @@ sub take_cutting {
         });
 
         # fix up the rest of the tree
+        $self->discard_changes;
         $self->nodes_rs->search({
             $root   => $root_id,
             $left   => { '>=' => $p_rgt},
